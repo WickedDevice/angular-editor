@@ -25,7 +25,7 @@
          (blur)="onTextAreaBlur($event)"
          (click)="exec()"
          (keyup)="exec()"
-         (mouseout)="onTextAreaMouseOut($event)"
+         (mouseleave)="onTextAreaMouseLeave($event)"
     >
     </div>
     <span class="angular-editor-placeholder">{{ placeholder || config['placeholder'] }}</span>
