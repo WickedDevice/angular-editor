@@ -32,6 +32,7 @@ export class AngularEditorService {
       this.doc.execCommand('formatBlock', false, command);
       return;
     }
+    console.log(`executeCommand: ${command} ${param}`);
     const restored = this.restoreSelection();  // !!! TEST !!! JCN
     this.doc.execCommand(command, false, param);
   }

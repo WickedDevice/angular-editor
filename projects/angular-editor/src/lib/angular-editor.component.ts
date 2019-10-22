@@ -103,6 +103,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
 
+  doInsertHTML(name: string) {
+    this.editorService.executeCommand('insertHTML', name);
+  }
+
   /**
    * Executed command from editor header buttons
    * @param command string from triggerCommand
