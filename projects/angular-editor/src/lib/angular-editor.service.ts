@@ -29,12 +29,16 @@ export class AngularEditorService {
   executeCommand(command: string, param: string = null) {
     const commands = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre'];
     if (commands.includes(command)) {
-      this.doc.execCommand('formatBlock', false, command);
+      this.editCmd('formatBlock', command);
       return;
     }
-    console.log(`executeCommand: ${command} ${param}`);
-    const restored = this.restoreSelection();  // !!! TEST !!! JCN
-    this.doc.execCommand(command, false, param);
+    this.editCmd(command, param);
+  }
+
+  editCmd(cmd: string, param: string) {
+    // console.log(`executeCommand: ${command} ${param}`);
+    this.restoreSelection();  // Prevent lost focus issues --JCN
+    this.doc.execCommand(cmd, false, param);
   }
 
   /**
@@ -43,7 +47,7 @@ export class AngularEditorService {
    */
   createLink(url: string) {
     if (!url.includes('http')) {
-      this.doc.execCommand('createlink', false, url);
+      this.editCmd('createlink', url);
     } else {
       const newUrl = '<a href="' + url + '" target="_blank">' + this.selectedText + '</a>';
       this.insertHtml(newUrl);
@@ -60,9 +64,9 @@ export class AngularEditorService {
     const restored = this.restoreSelection();
     if (restored) {
       if (where === 'textColor') {
-        this.doc.execCommand('foreColor', false, color);
+        this.editCmd('foreColor', color);
       } else {
-        this.doc.execCommand('hiliteColor', false, color);
+        this.editCmd('hiliteColor', color);
       }
     }
   }
@@ -72,7 +76,7 @@ export class AngularEditorService {
    * @param fontName string
    */
   setFontName(fontName: string) {
-    this.doc.execCommand('fontName', false, fontName);
+    this.editCmd('fontName', fontName);
   }
 
   /**
@@ -80,7 +84,7 @@ export class AngularEditorService {
    * @param fontSize string
    */
   setFontSize(fontSize: string) {
-    this.doc.execCommand('fontSize', false, fontSize);
+    this.editCmd('fontSize', fontSize);
   }
 
   /**
@@ -88,12 +92,10 @@ export class AngularEditorService {
    * @param html HTML string
    */
   insertHtml(html: string): void {
-
-    const isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
-
-    if (!isHTMLInserted) {
-      throw new Error('Unable to perform the operation');
-    }
+    this.editCmd('insertHTML', html);
+    // if (!isHTMLInserted) {
+    //   throw new Error('Unable to perform the operation');
+    // }
   }
 
   /**
@@ -174,11 +176,10 @@ export class AngularEditorService {
    */
   insertImage(imageUrl: string) {
     this.executeCommand('insertImage', imageUrl);
-    // this.doc.execCommand('insertImage', false, imageUrl);
   }
 
   setDefaultParagraphSeparator(separator: string) {
-    this.doc.execCommand('defaultParagraphSeparator', false, separator);
+    this.editCmd('defaultParagraphSeparator', separator);
   }
 
   createCustomClass(customClass: CustomClass) {

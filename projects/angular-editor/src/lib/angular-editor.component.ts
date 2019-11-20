@@ -133,6 +133,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * focus event
    */
   onTextAreaFocus(event: FocusEvent): void {
+    // this.focusEvent.emit(event);  // Hack: I think I need this --JCN
     if (this.focused) {
       event.stopPropagation();
       return;
@@ -175,6 +176,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.blurEvent.emit(event);
         this.focused = false;
       }
+    } else {  // Added by JCN (user clicked on random surface somewhere)
+      this.blurEvent.emit(event);
+      this.focused = false;
     }
   }
 
@@ -321,7 +325,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       this.r.appendChild(editableElement, oPre);
 
       // ToDo move to service
-      this.doc.execCommand('defaultParagraphSeparator', false, 'div');
+
+      // paragraph seems better --JN
+      this.doc.execCommand('defaultParagraphSeparator', false, 'p');
+      // this.doc.execCommand('defaultParagraphSeparator', false, 'div');
 
       this.modeVisual = false;
       this.viewMode.emit(false);

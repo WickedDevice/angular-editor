@@ -13,20 +13,19 @@
   .angular-editor-wrapper {
     position: relative;
 
+    .angular-editor-textarea:focus {
+      border-color: #ddd;
+    }
+
     .angular-editor-textarea {
       min-height: 5rem;
       padding: 0.5rem 0.8rem 1rem 0.8rem;
-      border: 1px solid #ddd;
+      border: 1px solid transparent;
       background-color: transparent;
       overflow-x: hidden;
       overflow-y: auto;
       // z-index: 2;
       position: relative;
-      // pointer-events: none;
-      &:focus,
-      &.focus {
-       // outline: 0;
-      }
 
       ::ng-deep blockquote {
         margin-left: 1rem;
