@@ -139,6 +139,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       return;
     }
     this.focused = true;
+    // console.log(`onTextAreaFocus() setting focused to ${this.focused} for id ${this.id}`);
     this.focusEvent.emit(event);
     if (!this.touched || !this.changed) {
       this.editorService.executeInNextQueueIteration(() => {
@@ -175,10 +176,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       if (!parent.classList.contains('angular-editor-toolbar-set') && !parent.classList.contains('ae-picker')) {
         this.blurEvent.emit(event);
         this.focused = false;
+        // console.log(`onTextAreaBlur() setting focused to ${this.focused} for id ${this.id}`);
       }
     } else {  // Added by JCN (user clicked on random surface somewhere)
       this.blurEvent.emit(event);
       this.focused = false;
+      // console.log(`onTextAreaBlur() setting focused to ${this.focused} for id ${this.id} (related target null)`);
     }
   }
 
@@ -192,6 +195,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       const sourceText = this.doc.getElementById('sourceText' + this.id);
       sourceText.focus();
       this.focused = true;
+      // console.log(`focus() setting focused to ${this.focused} for id ${this.id}`);
     }
   }
 

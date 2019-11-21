@@ -38,6 +38,7 @@ export class AngularEditorService {
   editCmd(cmd: string, param: string) {
     // console.log(`executeCommand: ${command} ${param}`);
     this.restoreSelection();  // Prevent lost focus issues --JCN
+    // console.log('restoring selection');
     this.doc.execCommand(cmd, false, param);
   }
 
