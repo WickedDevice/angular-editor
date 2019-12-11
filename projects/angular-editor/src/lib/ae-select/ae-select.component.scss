@@ -103,7 +103,7 @@
     // padding: 4px 8px;
     position: absolute;
     white-space: nowrap;
-    z-index: 3;
+    z-index: 23;
     border: 1px solid transparent;
     box-shadow: rgba(0,0,0,0.2) 0 2px 8px;
     .ae-picker-item {
@@ -112,7 +112,7 @@
       padding-bottom: 5px;
       padding-top: 5px;
       padding-left: 5px;
-      z-index: 3;
+      z-index: 23;
 
       text-align: left;
       background-color: transparent;
@@ -137,14 +137,14 @@
     display: block;
     margin-top: -1px;
     // top: 100%;
-    z-index: 1;
+    z-index: 21;
     .ae-picker-label {
       // border-color: #ccc;
       color: #ccc;
-      z-index: 2;
+      z-index: 22;
       svg {
         color: #ccc;
-        z-index: 2;
+        z-index: 22;
         .ae-stroke {
           stroke: #ccc;
         }
@@ -154,7 +154,7 @@
       display: block;
       margin-top: -1px;
       top: 100%;
-      z-index: 3;
+      z-index: 23;
 
       border-color: #ccc;
     }

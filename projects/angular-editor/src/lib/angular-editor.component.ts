@@ -15,7 +15,8 @@ import {
   Output,
   Renderer2,
   SecurityContext,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {AngularEditorConfig, angularEditorConfig} from './config';
@@ -29,6 +30,7 @@ import {isDefined} from './utils';
   selector: 'angular-editor',
   templateUrl: './angular-editor.component.html',
   styleUrls: ['./angular-editor.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
