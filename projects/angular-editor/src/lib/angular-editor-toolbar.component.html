@@ -13,8 +13,8 @@
             [disabled]="htmlMode" tabindex="-1"><i class='fa fa-italic'></i></button>
     <button [id]="'underline-'+id" type="button" title="Underline" class="angular-editor-button"
             (click)="triggerCommand('underline')" [disabled]="htmlMode" tabindex="-1"><i class='fa fa-underline'></i></button>
-    <button [id]="'strikeThrough-'+id" type="button" title="Strikethrough" class="angular-editor-button"
-            (click)="triggerCommand('strikeThrough')" [disabled]="htmlMode" tabindex="-1"><i class='fa fa-strikethrough'></i></button>
+    <!-- <button [id]="'strikeThrough-'+id" type="button" title="Strikethrough" class="angular-editor-button"
+            (click)="triggerCommand('strikeThrough')" [disabled]="htmlMode" tabindex="-1"><i class='fa fa-strikethrough'></i></button> -->
     <button [id]="'subscript-'+id" type="button" title="Subscript" class="angular-editor-button"
             (click)="triggerCommand('subscript')" [disabled]="htmlMode" tabindex="-1"><i class='fa fa-subscript'></i></button>
     <button [id]="'superscript-'+id" type="button" title="Superscript" class="angular-editor-button"
@@ -89,7 +89,6 @@
             [disabled]="htmlMode" tabindex="-1"><span class="color-label background"><i class="fa fa-font"></i></span></button>
   </div> -->
   <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
-
     <ae-select class="select-custom-style" [options]="customClassList"
                [(ngModel)]="customClassId"
                (change)="setCustomClass(customClassId)"
@@ -114,8 +113,8 @@
             [disabled]="htmlMode" tabindex="-1"><i class="fa fa-image"></i></button>
     <button [id]="'insertVideo-'+id" type="button" class="angular-editor-button"
             (click)="insertVideo()" title="Insert Video" [disabled]="htmlMode" tabindex="-1"><i class="fa fa-video-camera"></i></button> -->
-    <button [id]="'insertHorizontalRule-'+id" type="button" title="Horizontal Line" class="angular-editor-button"
-            (click)="triggerCommand('insertHorizontalRule')" [disabled]="htmlMode" tabindex="-1"><i class="fa fa-minus"></i></button>
+    <!-- <button [id]="'insertHorizontalRule-'+id" type="button" title="Horizontal Line" class="angular-editor-button"
+            (click)="triggerCommand('insertHorizontalRule')" [disabled]="htmlMode" tabindex="-1"><i class="fa fa-minus"></i></button> -->
   </div>
   <div class="angular-editor-toolbar-set">
     <button [id]="'clearFormatting-'+id" type="button" title="Clear Formatting" class="angular-editor-button"
