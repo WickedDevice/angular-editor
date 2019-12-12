@@ -88,13 +88,13 @@
     <button [id]="'backgroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="bgInput.click()" title="Background Color"
             [disabled]="htmlMode" tabindex="-1"><span class="color-label background"><i class="fa fa-font"></i></span></button>
   </div> -->
-  <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
+  <!-- <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
     <ae-select class="select-custom-style" [options]="customClassList"
                [(ngModel)]="customClassId"
                (change)="setCustomClass(customClassId)"
                [disabled]="htmlMode"
                tabindex="-1"></ae-select>
-  </div>
+  </div> -->
   <div class="angular-editor-toolbar-set">
     <button [id]="'link-'+id" type="button" class="angular-editor-button" (click)="insertUrl()"
             title="Insert Link" [disabled]="isLinkButtonDisabled" tabindex="-1">
