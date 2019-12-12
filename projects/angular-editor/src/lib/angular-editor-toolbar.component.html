@@ -49,14 +49,14 @@
     <button [id]="'insertOrderedList-'+id" type="button" title="Ordered List" class="angular-editor-button"
             (click)="triggerCommand('insertOrderedList')" [disabled]="htmlMode" tabindex="-1"><i class='fa fa-list-ol'></i></button>
   </div>
-  <div class="angular-editor-toolbar-set">
+  <!-- <div class="angular-editor-toolbar-set">
 
     <ae-select class="select-heading" [options]="headings"
                [(ngModel)]="block"
                (change)="triggerCommand(block)"
                [disabled]="htmlMode"
                tabindex="-1"></ae-select>
-  </div>
+  </div> -->
   <!-- <div class="angular-editor-toolbar-set">
 
     <ae-select class="select-font" [options]="fonts"
