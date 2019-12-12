@@ -179,7 +179,7 @@ export class AngularEditorToolbarComponent {
     this.buttons.forEach(e => {
       const result = this.doc.queryCommandState(e);
       const elementById = this.doc.getElementById(e + '-' + this.id);
-      if (result) {
+      if (result && elementById) {
         this.r.addClass(elementById, 'active');
       } else {
         this.r.removeClass(elementById, 'active');
