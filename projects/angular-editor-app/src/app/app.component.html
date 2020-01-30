@@ -9,7 +9,8 @@
     HTML Output:  {{ htmlContent1 }}
   </p>
   <form [formGroup]="form">
-    <angular-editor autofocus="true" id="editor2" formControlName="signature" [config]="config2" (ngModelChange)="onChange2($event)"></angular-editor>
+    <!-- <angular-editor autofocus="true" id="editor2" formControlName="signature" [config]="config2" (ngModelChange)="onChange2($event)"></angular-editor> -->
+    <angular-editor id="editor2" formControlName="signature" [config]="config2" (ngModelChange)="onChange2($event)"></angular-editor>
   </form>
   <p>
     Form Value: {{ form.value.signature }}
