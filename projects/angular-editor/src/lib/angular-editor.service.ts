@@ -1,8 +1,8 @@
-import {Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpEvent} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {DOCUMENT} from '@angular/common';
-import {CustomClass} from './config';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { CustomClass } from './config';
 
 export interface UploadResponse {
   imageUrl: string;
@@ -176,7 +176,7 @@ export class AngularEditorService {
    * @param imageUrl The imageUrl.
    */
   insertImage(imageUrl: string) {
-    this.executeCommand('insertImage', imageUrl);
+    this.doc.execCommand('insertImage', false, imageUrl);
   }
 
   setDefaultParagraphSeparator(separator: string) {
@@ -203,15 +203,11 @@ export class AngularEditorService {
 
   private insertYouTubeVideoTag(videoUrl: string): void {
     const id = videoUrl.split('v=')[1];
-    const imageUrl = `https://img.youtube.com/vi/${id}/0.jpg`;
     const thumbnail = `
-      <div style='position: relative'>
-        <img style='position: absolute; left:200px; top:140px'
-             src="https://img.icons8.com/color/96/000000/youtube-play.png"/>
-        <a href='${videoUrl}' target='_blank'>
-          <img src="${imageUrl}" alt="click to watch"/>
-        </a>
-      </div>`;
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/${id}"
+     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+      `;
     this.insertHtml(thumbnail);
   }
 
@@ -253,7 +249,7 @@ export class AngularEditorService {
     } else {
       // Iterate nodes until we hit the end container
       while (node && node !== endNode) {
-        rangeNodes.push( node = this.nextNode(node) );
+        rangeNodes.push(node = this.nextNode(node));
       }
 
       // Add partially selected nodes at the start of the range

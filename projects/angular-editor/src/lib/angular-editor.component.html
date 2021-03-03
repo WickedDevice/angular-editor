@@ -3,6 +3,8 @@
   <angular-editor-toolbar *ngIf="config.toolbarPosition === 'top'" #editorToolbar
                           [id]="id"
                           [uploadUrl]="config.uploadUrl"
+                          [upload]="config.upload"
+                          [extraButtons]="config.extraButtons"
                           [showToolbar]="config.showToolbar !== undefined ? config.showToolbar : true"
                           [fonts]="getFonts()"
                           [customClasses]="config.customClasses"
@@ -38,5 +40,6 @@
                           [customClasses]="config.customClasses"
                           [defaultFontName]="config.defaultFontName"
                           [defaultFontSize]="config.defaultFontSize"
+                          [extraButtons]="config.extraButtons"
                           (execute)="executeCommand($event)"></angular-editor-toolbar>
 </div>

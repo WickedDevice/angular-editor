@@ -42,7 +42,8 @@ export class AppComponent implements OnInit {
         class: 'titleText',
         tag: 'h1',
       },
-    ]
+    ],
+    extraButtons:['insertVideo', 'insertImage']
   };
 
   config2: AngularEditorConfig = {

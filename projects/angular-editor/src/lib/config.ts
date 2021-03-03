@@ -30,6 +30,7 @@ export interface AngularEditorConfig {
   sanitize?: boolean;
   toolbarPosition?: 'top' | 'bottom';
   outline?: boolean;
+  extraButtons?: string[];
 }
 
 export const angularEditorConfig: AngularEditorConfig = {

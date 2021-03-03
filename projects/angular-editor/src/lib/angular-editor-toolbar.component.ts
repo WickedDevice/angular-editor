@@ -1,9 +1,10 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
-import {AngularEditorService} from './angular-editor.service';
-import {HttpResponse} from '@angular/common/http';
+import {AngularEditorService, UploadResponse} from './angular-editor.service';
+import {HttpEvent, HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'angular-editor-toolbar',
@@ -102,7 +103,8 @@ export class AngularEditorToolbarComponent {
   @Input() uploadUrl: string;
   @Input() showToolbar: boolean;
   @Input() fonts: SelectOption[] = [{label: '', value: ''}];
-
+  @Input() upload: (file: File) => Observable<HttpEvent<UploadResponse>>;
+  @Input() extraButtons: string[];
   @Input()
   set customClasses(classes: CustomClass[]) {
     if (classes) {
@@ -290,19 +292,31 @@ export class AngularEditorToolbarComponent {
     this.htmlMode = m;
   }
 
+  focus() {
+    this.execute.emit('focus');
+    console.log('focused');
+  }
+
+  showExtraButtons(name: string): boolean {
+    if (!name) {
+      return false;
+    }
+    if (!(Array.isArray(this.extraButtons))) {
+      return false;
+    }
+    return this.extraButtons.includes(name);
+  }
+
   /**
    * Upload image when file is selected
    */
   onFileChanged(event) {
     const file = event.target.files[0];
     if (file.type.includes('image/')) {
-        if (this.uploadUrl) {
-            this.editorService.uploadImage(file).subscribe(e => {
-              if (e instanceof HttpResponse) {
-                this.editorService.insertImage(e.body.imageUrl);
-                this.fileReset();
-              }
-            });
+        if (this.upload) {
+          this.upload(file).subscribe(() => this.watchUploadImage);
+        } else if (this.uploadUrl) {
+            this.editorService.uploadImage(file).subscribe(() => this.watchUploadImage);
         } else {
           const reader = new FileReader();
           reader.onload = (e: ProgressEvent) => {
@@ -313,7 +327,11 @@ export class AngularEditorToolbarComponent {
         }
       }
   }
-
+  watchUploadImage(response: HttpResponse<{imageUrl: string}>, event) {
+    const { imageUrl } = response.body;
+    this.editorService.insertImage(imageUrl);
+    event.srcElement.value = null;
+  }
   /**
    * Reset Input
    */
