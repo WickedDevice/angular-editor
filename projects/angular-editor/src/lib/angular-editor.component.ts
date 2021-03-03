@@ -36,7 +36,8 @@ import {isDefined} from './utils';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AngularEditorComponent),
       multi: true
-    }
+    },
+    AngularEditorService
   ]
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
@@ -63,7 +64,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
-  @ViewChild('editorToolbar', {static: false}) editorToolbar: AngularEditorToolbarComponent;
+  @ViewChild('editorToolbar') editorToolbar: AngularEditorToolbarComponent;
 
   @Output() viewMode = new EventEmitter<boolean>();
 
@@ -141,15 +142,18 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    */
   executeCommand(command: string) {
     this.focus();
+    if (command === 'focus') {
+      return;
+    }
     if (command === 'toggleEditorMode') {
       this.toggleEditorMode(this.modeVisual);
     } else if (command !== '') {
       if (command === 'clear') {
         this.editorService.removeSelectedElements(this.getCustomTags());
-        this.onContentChange(this.textArea.nativeElement.innerHTML);
+        this.onContentChange(this.textArea.nativeElement);
       } else if (command === 'default') {
         this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
-        this.onContentChange(this.textArea.nativeElement.innerHTML);
+        this.onContentChange(this.textArea.nativeElement);
       } else {
         this.editorService.executeCommand(command);
       }
@@ -180,7 +184,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   /**
    * @description fires when cursor leaves textarea
    */
-  public onTextAreaMouseLeave(event: MouseEvent): void {
+  public onTextAreaMouseOut(event: MouseEvent): void {
     this.editorService.saveSelection();
   }
 
@@ -229,9 +233,15 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   /**
    * Executed from the contenteditable section while the input property changes
-   * @param html html string from contenteditable
+   * @param element html element from contenteditable
    */
-  onContentChange(html: string): void {
+  onContentChange(element: HTMLElement): void {
+    let html = '';
+    if (this.modeVisual) {
+      html = element.innerHTML;
+    } else {
+      html = element.innerText;
+    }
     if ((!html || html === '<br>')) {
       html = '';
     }
@@ -376,7 +386,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       this.r.setProperty(editableElement, 'contentEditable', true);
       this.modeVisual = true;
       this.viewMode.emit(true);
-      this.onContentChange(editableElement.innerHTML);
+      this.onContentChange(editableElement);
       editableElement.focus();
     }
     this.editorToolbar.setEditorMode(!this.modeVisual);
@@ -407,6 +417,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   private configure() {
     this.editorService.uploadUrl = this.config.uploadUrl;
+    this.editorService.uploadWithCredentials = this.config.uploadWithCredentials;
     if (this.config.defaultParagraphSeparator) {
       this.editorService.setDefaultParagraphSeparator(this.config.defaultParagraphSeparator);
     }
@@ -444,5 +455,10 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     if (this.focusInstance) {
       this.focusInstance();
     }
+  }
+
+  filterStyles(html: string): string {
+    html = html.replace('position: fixed;', '');
+    return html;
   }
 }

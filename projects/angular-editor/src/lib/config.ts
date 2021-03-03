@@ -1,3 +1,7 @@
+import { UploadResponse } from './angular-editor.service';
+import { HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 export interface CustomClass {
   name: string;
   class: string;
@@ -23,13 +27,16 @@ export interface AngularEditorConfig {
   placeholder?: string;
   defaultParagraphSeparator?: string;
   defaultFontName?: string;
-  defaultFontSize?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | string;
+  defaultFontSize?: '1' | '2' | '3' | '4' | '5' | '6' | '7' | string;
   uploadUrl?: string;
+  upload?: (file: File) => Observable<HttpEvent<UploadResponse>>;
+  uploadWithCredentials?: boolean;
   fonts?: Font[];
   customClasses?: CustomClass[];
   sanitize?: boolean;
   toolbarPosition?: 'top' | 'bottom';
   outline?: boolean;
+  toolbarHiddenButtons?: string[][];
 }
 
 export const angularEditorConfig: AngularEditorConfig = {
@@ -54,7 +61,16 @@ export const angularEditorConfig: AngularEditorConfig = {
     {class: 'comic-sans-ms', name: 'Comic Sans MS'}
   ],
   uploadUrl: 'v1/image',
+  uploadWithCredentials: false,
   sanitize: true,
   toolbarPosition: 'top',
   outline: true,
+  /*toolbarHiddenButtons: [
+    ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
+    ['heading', 'fontName', 'fontSize', 'color'],
+    ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent'],
+    ['cut', 'copy', 'delete', 'removeFormat', 'undo', 'redo'],
+    ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
+    ['link', 'unlink', 'image', 'video']
+  ]*/
 };
