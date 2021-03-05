@@ -61,7 +61,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   @Input() tabIndex: number | null;
 
   @Output() html;
-
+  @Output() markdownEmitter = new EventEmitter<boolean>();
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
   @ViewChild('editorToolbar') editorToolbar: AngularEditorToolbarComponent;
@@ -100,6 +100,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     this.config.toolbarPosition = this.config.toolbarPosition ? this.config.toolbarPosition : angularEditorConfig.toolbarPosition;
   }
 
+  emitMarkdown($event) {
+    this.markdownEmitter.emit($event);
+  }
   ngAfterViewInit() {
     // Replace normal Paste with Paste Plain Text to simplify UX --JCN
     this.textArea.nativeElement.addEventListener('paste', this.plainPaste.bind(this));

@@ -17,6 +17,7 @@
           [defaultFontSize]="config.defaultFontSize"
           [hiddenButtons]="config.toolbarHiddenButtons"
           (execute)="executeCommand($event)"
+          (markdownEmitter)="emitMarkdown($event)"
      ></angular-editor-toolbar>
 
      <div
@@ -57,5 +58,6 @@
           [defaultFontSize]="config.defaultFontSize"
           [hiddenButtons]="config.toolbarHiddenButtons"
           (execute)="executeCommand($event)"
+          (markdownEmitter)="emitMarkdown($event)"
      ></angular-editor-toolbar>
 </div>

@@ -1,9 +1,9 @@
-import {Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpEvent} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {DOCUMENT} from '@angular/common';
-import {CustomClass} from './config';
-
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { CustomClass } from './config';
+import { v4 as uuid } from 'uuid';
 export interface UploadResponse {
   imageUrl: string;
 }
@@ -92,10 +92,10 @@ export class AngularEditorService {
    * @param html HTML string
    */
   insertHtml(html: string): void {
-    this.editCmd('insertHTML', html);
-    // if (!isHTMLInserted) {
-    //   throw new Error('Unable to perform the operation');
-    // }
+    const isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+    if (!isHTMLInserted) {
+      throw new Error('Unable to perform the operation');
+    }
   }
 
   /**
@@ -176,7 +176,20 @@ export class AngularEditorService {
    * @param imageUrl The imageUrl.
    */
   insertImage(imageUrl: string) {
-    this.executeCommand('insertImage', imageUrl);
+    const id = uuid();
+    const div = `
+    <figure id=${id} style="text-align:center" contenteditable="false" >
+    <img src="${imageUrl}"   style="max-width:500px; margin:0 auto">
+    </figure>
+    <br>
+    `;
+    this.insertHtml(div);
+    // this.doc.getElementById(`close-${id}`).addEventListener('click', () => {
+    //   const ele = this.doc.getElementById(id);
+    //   if (ele) {
+    //     ele.remove();
+    //   }
+    // })
   }
 
   setDefaultParagraphSeparator(separator: string) {
@@ -203,29 +216,33 @@ export class AngularEditorService {
 
   private insertYouTubeVideoTag(videoUrl: string): void {
     const id = videoUrl.split('v=')[1];
-    const imageUrl = `https://img.youtube.com/vi/${id}/0.jpg`;
     const thumbnail = `
-      <div style='position: relative'>
-        <img style='position: absolute; left:200px; top:140px'
-             src="https://img.icons8.com/color/96/000000/youtube-play.png"/>
-        <a href='${videoUrl}' target='_blank'>
-          <img src="${imageUrl}" alt="click to watch"/>
-        </a>
-      </div>`;
+    <iframe width="560" height="315"
+    src="https://www.youtube.com/embed/${id}"
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+    <br>
+    `;
     this.insertHtml(thumbnail);
   }
 
   private insertVimeoVideoTag(videoUrl: string): void {
-    const sub = this.http.get<any>(`https://vimeo.com/api/oembed.json?url=${videoUrl}`).subscribe(data => {
-      const imageUrl = data.thumbnail_url_with_play_button;
-      const thumbnail = `<div>
-        <a href='${videoUrl}' target='_blank'>
-          <img src="${imageUrl}" alt="${data.title}"/>
-        </a>
-      </div>`;
-      this.insertHtml(thumbnail);
-      sub.unsubscribe();
-    });
+    const id = videoUrl.split('.com/')[1];
+    const thumbnail = `<iframe src="https://player.vimeo.com/video/${id}"
+    width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" all owfullscreen></iframe>
+    <br>`;
+    // const sub = this.http.get<any>(`https://vimeo.com/api/oembed.json?url=${videoUrl}`).subscribe(data => {
+    //   const imageUrl = data.thumbnail_url_with_play_button;
+    //   const thumbnail = `
+    //   <iframe width="560" height="315"
+    //   src="https://www.youtube.com/embed/${id}"
+    //   frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    //   allowfullscreen></iframe>
+    //   `;
+    //   this.insertHtml(thumbnail);
+    //   sub.unsubscribe();
+    // });
+    this.insertHtml(thumbnail);
   }
 
   nextNode(node) {
@@ -253,7 +270,7 @@ export class AngularEditorService {
     } else {
       // Iterate nodes until we hit the end container
       while (node && node !== endNode) {
-        rangeNodes.push( node = this.nextNode(node) );
+        rangeNodes.push(node = this.nextNode(node));
       }
 
       // Add partially selected nodes at the start of the range

@@ -5,7 +5,6 @@ import {DOCUMENT} from '@angular/common';
 import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import { Observable } from 'rxjs';
-
 @Component({
   selector: 'angular-editor-toolbar',
   templateUrl: './angular-editor-toolbar.component.html',
@@ -130,7 +129,7 @@ export class AngularEditorToolbarComponent {
   @Input() hiddenButtons: string[][];
 
   @Output() execute: EventEmitter<string> = new EventEmitter<string>();
-
+  @Output() markdownEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('fileInput', {static: true}) myInputFile: ElementRef;
 
   public get isLinkButtonDisabled(): boolean {
@@ -313,6 +312,12 @@ export class AngularEditorToolbarComponent {
           reader.readAsDataURL(file);
         }
       }
+      event.srcElement.value = "";
+  }
+
+
+  emitMarkdown() {
+    this.markdownEmitter.emit(true);
   }
 
   watchUploadImage(response: HttpResponse<{imageUrl: string}>, event) {
