@@ -1,5 +1,5 @@
 <div class="angular-editor-toolbar" [hidden]="!showToolbar">
-  <div style="width: 84%;">
+  <div [style.width]="isButtonHidden('markDown') ? '100%' : '84%'">
     <div class="angular-editor-toolbar-set">
       <button type="button" title="Undo" class="angular-editor-button" (click)="triggerCommand('undo')"
               [hidden]="isButtonHidden('undo')" tabindex="-1"><i
@@ -147,9 +147,9 @@
         class="fa fa-video-camera"></i></button>
     </div>
   </div>
-  <div style="width: 130px;padding-top: 6px;text-align: right;">
+  <div style="width: 130px;padding-top: 6px;text-align: right;" [hidden]="isButtonHidden('markDown')">
     <button [id]="'markdown-'+id" type="button" class="angular-editor-button" (click)="emitMarkdown()" class="markdown"
-     [hidden]="isButtonHidden('markDown')" tabindex="-1" data-cy="markdown-button">
+      tabindex="-1" data-cy="markdown-button">
     Markdown Mode
     </button>
   </div>
