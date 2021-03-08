@@ -92,9 +92,13 @@ export class AngularEditorService {
    * @param html HTML string
    */
   insertHtml(html: string): void {
-    const isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+    let isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
     if (!isHTMLInserted) {
-      throw new Error('Unable to perform the operation');
+      // retry...sometimes its needed
+      isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+      if (!isHTMLInserted) {
+        throw new Error('Unable to perform the operation');
+      }
     }
   }
 
@@ -179,7 +183,7 @@ export class AngularEditorService {
     const id = uuid();
     const div = `
     <figure id=${id} style="text-align:center" contenteditable="false" >
-    <img src="${imageUrl}"   style="max-width:500px; margin:0 auto">
+    <img src="${imageUrl}"   style="margin:0 auto">
     </figure>
     <br>
     `;

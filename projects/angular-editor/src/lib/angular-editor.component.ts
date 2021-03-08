@@ -25,6 +25,7 @@ import {AngularEditorService} from './angular-editor.service';
 import {DOCUMENT} from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
 import {isDefined} from './utils';
+import { ImageResizeService } from './image-resize.service';
 
 @Component({
   selector: 'angular-editor',
@@ -37,7 +38,8 @@ import {isDefined} from './utils';
       useExisting: forwardRef(() => AngularEditorComponent),
       multi: true
     },
-    AngularEditorService
+    AngularEditorService,
+    ImageResizeService
   ]
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
