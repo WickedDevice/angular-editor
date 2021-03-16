@@ -37,9 +37,7 @@ import { ImageResizeService } from './image-resize.service';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AngularEditorComponent),
       multi: true
-    },
-    AngularEditorService,
-    ImageResizeService
+    }
   ]
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
@@ -66,7 +64,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   @Output() markdownEmitter = new EventEmitter<boolean>();
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
-  @ViewChild('editorToolbar') editorToolbar: AngularEditorToolbarComponent;
+  @ViewChild('editorToolbar', {static: true}) editorToolbar: AngularEditorToolbarComponent;
 
   @Output() viewMode = new EventEmitter<boolean>();
 
