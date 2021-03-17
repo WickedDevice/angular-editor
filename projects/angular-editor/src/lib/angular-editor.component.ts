@@ -229,6 +229,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    */
   focus() {
     if (this.modeVisual) {
+      this.editorService.restoreSelection();
       this.textArea.nativeElement.focus();
     } else {
       const sourceText = this.doc.getElementById('sourceText' + this.id);

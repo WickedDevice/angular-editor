@@ -155,6 +155,7 @@ export class AngularEditorService {
   restoreSelection(): boolean {
     if (this.savedSelection) {
       if (this.doc.getSelection) {
+        // console.log(`***Restoring selection : ${this.savedSelection.startContainer.nodeName} ${this.savedSelection.endContainer.nodeName}`);
         const sel = this.doc.getSelection();
         sel.removeAllRanges();
         sel.addRange(this.savedSelection);
