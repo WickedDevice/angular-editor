@@ -188,7 +188,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @description fires when cursor leaves textarea
    */
   public onTextAreaMouseOut(event: MouseEvent): void {
-    this.editorService.saveSelection();
+    this.editorService.saveSelection(this.textArea);
   }
 
   /**
@@ -200,7 +200,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
      */
     // this.editorService.executeInNextQueueIteration(this.editorService.saveSelection);
     // Changing from async to sync here seemed to fix an "unfocused" problem
-    this.editorService.saveSelection();
+    this.editorService.saveSelection(this.textArea);
 
     if (typeof this.onTouched === 'function') {
       this.onTouched();
@@ -406,7 +406,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     let userSelection;
     if (this.doc.getSelection) {
       userSelection = this.doc.getSelection();
-      this.editorService.executeInNextQueueIteration(this.editorService.saveSelection);
+      this.editorService.executeInNextQueueIteration(this.editorService.saveSelection.bind(this, this.textArea));
     }
 
     let a = userSelection.focusNode;

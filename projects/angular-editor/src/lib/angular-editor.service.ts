@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { ElementRef, Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
@@ -107,7 +107,11 @@ export class AngularEditorService {
   /**
    * save selection when the editor is focussed out
    */
-  public saveSelection = (): void => {
+  public saveSelection = (el: ElementRef): void => {
+
+    if (!this.elementContainsSelection(el.nativeElement)) {
+      return; // do not save browser selections that are outside the editor
+    }
     if (this.doc.getSelection) {
       const sel = this.doc.getSelection();
       if (sel.getRangeAt && sel.rangeCount) {
@@ -119,6 +123,29 @@ export class AngularEditorService {
     } else {
       this.savedSelection = null;
     }
+  }
+
+  elementContainsSelection(el) {
+    if (!el) {
+      return false;
+    }
+    const view = this.doc.defaultView;
+    const sel = view.getSelection();
+
+    if (sel && sel.rangeCount > 0) {
+      return this.isOrContainsDomElem(sel.getRangeAt(0).commonAncestorContainer, el);
+    }
+    return false;
+  }
+
+  isOrContainsDomElem(node, container) {
+    while (node) {
+      if (node === container) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
   }
 
   /**

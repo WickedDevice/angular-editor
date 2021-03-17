@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
       },
     ],
     toolbarHiddenButtons: [
-      ['bold', 'italic'],
+      // ['bold', 'italic'],
       ['fontSize']
     ]
   };
