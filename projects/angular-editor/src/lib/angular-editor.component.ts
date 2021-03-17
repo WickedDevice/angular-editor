@@ -37,7 +37,9 @@ import { ImageResizeService } from './image-resize.service';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AngularEditorComponent),
       multi: true
-    }
+    },
+    AngularEditorService,
+    ImageResizeService
   ]
 })
 export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
@@ -85,7 +87,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   constructor(
     private r: Renderer2,
-    private editorService: AngularEditorService,
+    public editorService: AngularEditorService,
     @Inject(DOCUMENT) private doc: any,
     private sanitizer: DomSanitizer,
     private cdRef: ChangeDetectorRef,
@@ -144,6 +146,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @param command string from triggerCommand
    */
   executeCommand(command: string) {
+    console.log(`***Execute command: ${command}`);
+
     this.focus();
     if (command === 'focus') {
       return;
@@ -401,7 +405,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * Send a node array from the contentEditable of the editor
    */
   exec() {
-    this.editorToolbar.triggerButtons();
+    if (this.editorToolbar && this.editorToolbar.triggerButtons) {
+      this.editorToolbar.triggerButtons();
+    }
 
     let userSelection;
     if (this.doc.getSelection) {
@@ -415,7 +421,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       els.unshift(a);
       a = a.parentNode;
     }
-    this.editorToolbar.triggerBlocks(els);
+    if (this.editorToolbar && this.editorToolbar.triggerBlocks) {
+      this.editorToolbar.triggerBlocks(els);
+    }
   }
 
   private configure() {

@@ -8,9 +8,7 @@ export interface UploadResponse {
   imageUrl: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AngularEditorService {
 
   savedSelection: Range | null;
@@ -36,11 +34,11 @@ export class AngularEditorService {
     this.editCmd(command, param);
   }
 
-  editCmd(cmd: string, param: string) {
+  editCmd(cmd: string, param: string): boolean {
     // console.log(`executeCommand: ${command} ${param}`);
     this.restoreSelection();  // Prevent lost focus issues --JCN
     // console.log('restoring selection');
-    this.doc.execCommand(cmd, false, param);
+    return !!this.doc.execCommand(cmd, false, param);
   }
 
   /**
@@ -94,10 +92,11 @@ export class AngularEditorService {
    * @param html HTML string
    */
   insertHtml(html: string): void {
-    let isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+    let isHTMLInserted = this.editCmd('insertHTML', html);
+
     if (!isHTMLInserted) {
       // retry...sometimes its needed
-      isHTMLInserted = this.doc.execCommand('insertHTML', false, html);
+      isHTMLInserted = this.editCmd('insertHTML', html);
       if (!isHTMLInserted) {
         throw new Error('Unable to perform the operation');
       }

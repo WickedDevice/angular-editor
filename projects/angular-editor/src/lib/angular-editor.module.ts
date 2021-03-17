@@ -16,10 +16,10 @@ import { ImageResizeService } from './image-resize.service';
     AngularEditorToolbarComponent,
     AeSelectComponent
   ],
-  providers: [
-    AngularEditorService,
-    ImageResizeService
-  ],
+  // providers: [
+  //   AngularEditorService,
+  //   ImageResizeService
+  // ],
   exports: [
     AngularEditorComponent,
     AngularEditorToolbarComponent
