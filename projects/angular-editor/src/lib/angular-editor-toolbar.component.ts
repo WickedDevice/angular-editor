@@ -285,7 +285,6 @@ export class AngularEditorToolbarComponent {
   }
 
   async insertResource() {
-    console.log('Insert Resource Called');
     if (this.insertResourceCallback) {
       const ret = await this.insertResourceCallback(this.editorService.selectedText);
       if (typeof ret === 'string') {
