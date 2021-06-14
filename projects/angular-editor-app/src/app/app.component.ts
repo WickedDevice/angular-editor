@@ -47,7 +47,11 @@ export class AppComponent implements OnInit {
     toolbarHiddenButtons: [
       // ['bold', 'italic'],
       ['fontSize']
-    ]
+    ],
+    toolbarInsertResourceCallback: (async (s) => {
+      console.log(`Callback called with arg "${s}"`);
+      return new Promise(r => r('<b>Hello World</b>'));
+    }).bind(this)
   };
 
   config2: AngularEditorConfig = {

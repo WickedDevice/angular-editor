@@ -154,6 +154,7 @@ export class AngularEditorToolbarComponent {
   }
 
   @Input() hiddenButtons: string[][];
+  @Input() insertResourceCallback: (string) => string;
 
   @Output() execute: EventEmitter<string> = new EventEmitter<string>();
   @Output() markdownEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -280,6 +281,16 @@ export class AngularEditorToolbarComponent {
     const url = prompt('Insert Video link', `https://`);
     if (url && url !== '' && url !== `https://`) {
       this.editorService.insertVideo(url);
+    }
+  }
+
+  async insertResource() {
+    console.log('Insert Resource Called');
+    if (this.insertResourceCallback) {
+      const ret = await this.insertResourceCallback(this.editorService.selectedText);
+      if (typeof ret === 'string') {
+        this.editorService.insertArbitraryHtml(ret);
+      }
     }
   }
 

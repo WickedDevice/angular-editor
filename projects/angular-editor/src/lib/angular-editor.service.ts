@@ -247,6 +247,10 @@ export class AngularEditorService {
     }
   }
 
+  insertArbitraryHtml(html: string) {
+    this.insertHtml(html);
+  }
+
   private insertYouTubeVideoTag(videoUrl: string): void {
     const id = videoUrl.split('v=')[1];
     const thumbnail = `

@@ -145,6 +145,10 @@
               (click)="insertVideo()" title="Insert Video" [disabled]="htmlMode" [hidden]="'insertVideo' | buttonIsHidden:hiddenButtons"
               tabindex="-1"><i
         class="fa fa-video-camera"></i></button>
+      <button [id]="'insertResource-'+id" type="button" class="angular-editor-button"
+              (click)="insertResource()" title="Insert Resource" [disabled]="false" [hidden]="'insertResource' | buttonIsHidden:hiddenButtons"
+              tabindex="-1"><i
+              class="fa fa-book"></i></button>
     </div>
   </div>
   <div style="width: 130px;padding-top: 6px;text-align: right;">
