@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, Output, Pipe, PipeTransform, Renderer2, ViewChild } from '@angular/core';
 import { AngularEditorService, UploadResponse } from './angular-editor.service';
 import { HttpResponse, HttpEvent } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
@@ -6,6 +6,32 @@ import { CustomClass } from './config';
 import { SelectOption } from './ae-select/ae-select.component';
 import { Observable } from 'rxjs';
 import { ImageResizeService } from './image-resize.service';
+
+@Pipe({
+  name: 'buttonIsHidden',
+  pure: true
+}) export class AEButtonIsHiddenPipe implements PipeTransform {
+
+  transform(name: string, hiddenButtons: any) {
+    if (!name) {
+      return false;
+    }
+    if (!(hiddenButtons instanceof Array)) {
+      return false;
+    }
+    let result: any;
+    for (const arr of hiddenButtons) {
+      if (arr instanceof Array) {
+        result = arr.find(item => item === name);
+      }
+      if (result) {
+        break;
+      }
+    }
+    return result !== undefined;
+  }
+}
+
 @Component({
   selector: 'angular-editor-toolbar',
   templateUrl: './angular-editor-toolbar.component.html',
@@ -340,25 +366,6 @@ export class AngularEditorToolbarComponent {
     } else {
       this.editorService.createCustomClass(this._customClasses[+classId]);
     }
-  }
-
-  isButtonHidden(name: string): boolean {
-    if (!name) {
-      return false;
-    }
-    if (!(this.hiddenButtons instanceof Array)) {
-      return false;
-    }
-    let result: any;
-    for (const arr of this.hiddenButtons) {
-      if (arr instanceof Array) {
-        result = arr.find(item => item === name);
-      }
-      if (result) {
-        break;
-      }
-    }
-    return result !== undefined;
   }
 
   focus() {
