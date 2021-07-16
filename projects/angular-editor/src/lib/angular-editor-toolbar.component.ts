@@ -287,7 +287,7 @@ export class AngularEditorToolbarComponent {
   async insertResource() {
     if (this.insertResourceCallback) {
       const ret = await this.insertResourceCallback(this.editorService.selectedText);
-      if (typeof ret === 'string') {
+      if (ret) {
         this.editorService.insertArbitraryHtml(ret);
       }
     }
