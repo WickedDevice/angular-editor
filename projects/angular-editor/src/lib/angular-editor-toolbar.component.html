@@ -66,7 +66,7 @@
               [hidden]="'insertOrderedList' | buttonIsHidden:hiddenButtons" tabindex="-1"><i
         class='fa fa-list-ol'></i></button>
     </div>
-    <!-- <div class="angular-editor-toolbar-set">
+    <div class="angular-editor-toolbar-set">
 
       <ae-select class="select-heading" [options]="headings"
                  [(ngModel)]="block"
@@ -74,8 +74,8 @@
                  [disabled]="htmlMode"
                  [hidden]="'heading' | buttonIsHidden:hiddenButtons"
                  tabindex="-1"></ae-select>
-    </div> -->
-    <!-- <div class="angular-editor-toolbar-set">
+    </div>
+    <div class="angular-editor-toolbar-set">
 
       <ae-select class="select-font" [options]="fonts"
                  [(ngModel)]="fontName"
@@ -83,8 +83,8 @@
                  [disabled]="htmlMode"
                  [hidden]="'fontName' | buttonIsHidden:hiddenButtons"
                  tabindex="-1"></ae-select>
-    </div> -->
-    <!-- <div class="angular-editor-toolbar-set">
+    </div>
+    <div class="angular-editor-toolbar-set">
 
       <ae-select class="select-font-size" [options]="fontSizes"
                  [(ngModel)]="fontSize"
@@ -93,8 +93,8 @@
                  [hidden]="'fontSize' | buttonIsHidden:hiddenButtons"
                  tabindex="-1">
       </ae-select>
-    </div> -->
-    <!-- <div class="angular-editor-toolbar-set">
+    </div>
+    <div class="angular-editor-toolbar-set">
       <input
         style="display: none"
         type="color" (change)="insertColor(fgInput.value, 'textColor')"
@@ -121,7 +121,7 @@
                  [disabled]="htmlMode"
                  [hidden]="'customClasses' | buttonIsHidden:hiddenButtons"
                  tabindex="-1"></ae-select>
-    </div> -->
+    </div>
     <div class="angular-editor-toolbar-set">
       <button [id]="'link-'+id" type="button" class="angular-editor-button" (click)="insertUrl()"
               title="Insert Link" [disabled]="isLinkButtonDisabled" [hidden]="'link' | buttonIsHidden:hiddenButtons" tabindex="-1">
