@@ -66,8 +66,10 @@
               [hidden]="'insertOrderedList' | buttonIsHidden:hiddenButtons" tabindex="-1"><i
         class='fa fa-list-ol'></i></button>
     </div>
-    <div class="angular-editor-toolbar-set">
-
+    <div class="angular-editor-toolbar-set"
+    [class.nomargin]="'heading' | buttonIsHidden:hiddenButtons"
+    [hidden]="'heading' | buttonIsHidden:hiddenButtons"
+    >
       <ae-select class="select-heading" [options]="headings"
                  [(ngModel)]="block"
                  (change)="triggerCommand(block)"
@@ -75,8 +77,11 @@
                  [hidden]="'heading' | buttonIsHidden:hiddenButtons"
                  tabindex="-1"></ae-select>
     </div>
-    <div class="angular-editor-toolbar-set">
 
+    <div class="angular-editor-toolbar-set"
+    [class.nomargin]="'fontName' | buttonIsHidden:hiddenButtons"
+    [hidden]="'fontName' | buttonIsHidden:hiddenButtons"
+    >
       <ae-select class="select-font" [options]="fonts"
                  [(ngModel)]="fontName"
                  (change)="setFontName(fontName)"
@@ -84,8 +89,11 @@
                  [hidden]="'fontName' | buttonIsHidden:hiddenButtons"
                  tabindex="-1"></ae-select>
     </div>
-    <div class="angular-editor-toolbar-set">
 
+    <div class="angular-editor-toolbar-set"
+    [class.nomargin]="'fontSize' | buttonIsHidden:hiddenButtons"
+    [hidden]="'fontSize' | buttonIsHidden:hiddenButtons"
+    >
       <ae-select class="select-font-size" [options]="fontSizes"
                  [(ngModel)]="fontSize"
                  (change)="setFontSize(fontSize)"
@@ -94,7 +102,11 @@
                  tabindex="-1">
       </ae-select>
     </div>
-    <div class="angular-editor-toolbar-set">
+
+    <div class="angular-editor-toolbar-set"
+    [class.nomargin]="'textColor' | buttonIsHidden:hiddenButtons && 'backgroundColor' | buttonIsHidden:hiddenButtons"
+    [hidden]="'textColor' | buttonIsHidden:hiddenButtons && 'backgroundColor' | buttonIsHidden:hiddenButtons"
+    >
       <input
         style="display: none"
         type="color" (change)="insertColor(fgInput.value, 'textColor')"
@@ -114,6 +126,7 @@
         class="color-label background"><i class="fa fa-font"></i></span>
       </button>
     </div>
+
     <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
       <ae-select class="select-custom-style" [options]="customClassList"
                  [(ngModel)]="customClassId"
