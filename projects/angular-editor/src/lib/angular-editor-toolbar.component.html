@@ -104,8 +104,8 @@
     </div>
 
     <div class="angular-editor-toolbar-set"
-    [class.nomargin]="'textColor' | buttonIsHidden:hiddenButtons && 'backgroundColor' | buttonIsHidden:hiddenButtons"
-    [hidden]="'textColor' | buttonIsHidden:hiddenButtons && 'backgroundColor' | buttonIsHidden:hiddenButtons"
+    [class.nomargin]="('textColor' | buttonIsHidden:hiddenButtons) && ('backgroundColor' | buttonIsHidden:hiddenButtons)"
+    [hidden]="('textColor' | buttonIsHidden:hiddenButtons) && ('backgroundColor' | buttonIsHidden:hiddenButtons)"
     >
       <input
         style="display: none"
