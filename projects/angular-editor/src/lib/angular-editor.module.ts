@@ -4,6 +4,9 @@ import {AEButtonIsHiddenPipe, AngularEditorToolbarComponent} from './angular-edi
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { AeSelectComponent } from './ae-select/ae-select.component';
+import {AeButtonComponent} from "./ae-button/ae-button.component";
+import { AeToolbarSetComponent } from './ae-toolbar-set/ae-toolbar-set.component';
+
 import { AngularEditorService } from './angular-editor.service';
 import { ImageResizeService } from './image-resize.service';
 
@@ -12,6 +15,8 @@ import { ImageResizeService } from './image-resize.service';
     CommonModule, FormsModule, ReactiveFormsModule
   ],
   declarations: [
+    AeButtonComponent,
+    AeToolbarSetComponent,
     AngularEditorComponent,
     AngularEditorToolbarComponent,
     AeSelectComponent,
@@ -22,6 +27,8 @@ import { ImageResizeService } from './image-resize.service';
   //   ImageResizeService
   // ],
   exports: [
+    AeButtonComponent, 
+    AeToolbarSetComponent,
     AngularEditorComponent,
     AngularEditorToolbarComponent
   ]

@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Attribute,
   ChangeDetectorRef,
-  Component,
+  Component, ContentChild,
   ElementRef,
   EventEmitter,
   forwardRef,
@@ -14,7 +14,7 @@ import {
   OnInit,
   Output,
   Renderer2,
-  SecurityContext,
+  SecurityContext, TemplateRef,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -67,15 +67,17 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
   @ViewChild('editorToolbar', {static: true}) editorToolbar: AngularEditorToolbarComponent;
+  @ContentChild("customButtons") customButtonsTemplateRef?: TemplateRef<any>;
+  executeCommandFn = this.executeCommand.bind(this);
 
   @Output() viewMode = new EventEmitter<boolean>();
 
   /** emits `blur` event when focused out from the textarea */
-    // tslint:disable-next-line:no-output-native no-output-rename
+    // eslint-disable-next-line @angular-eslint/no-output-native, @angular-eslint/no-output-rename
   @Output('blur') blurEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
 
   /** emits `focus` event when focused in to the textarea */
-    // tslint:disable-next-line:no-output-rename no-output-native
+    // eslint-disable-next-line @angular-eslint/no-output-rename, @angular-eslint/no-output-native
   @Output('focus') focusEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
 
   @HostBinding('attr.tabindex') tabindex = -1;
@@ -114,6 +116,15 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     }
   }
 
+  onPaste(event: ClipboardEvent){
+    if (this.config.rawPaste) {
+      event.preventDefault();
+      const text = event.clipboardData.getData('text/plain');
+      document.execCommand('insertHTML', false, text);
+      return text;
+    }
+  }
+
   plainPaste(e: any) {
     console.log();
     e.preventDefault();
@@ -145,7 +156,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * Executed command from editor header buttons
    * @param command string from triggerCommand
    */
-  executeCommand(command: string) {
+  executeCommand(command: string, value?: string) {
     console.log(`***Execute command: ${command}`);
 
     this.focus();
@@ -162,7 +173,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
         this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
         this.onContentChange(this.textArea.nativeElement);
       } else {
-        this.editorService.executeCommand(command);
+        this.editorService.executeCommand(command, value);
       }
       this.exec();
     }

@@ -37,6 +37,7 @@ export interface AngularEditorConfig {
   toolbarPosition?: 'top' | 'bottom';
   outline?: boolean;
   toolbarHiddenButtons?: string[][];
+  rawPaste?: boolean;
   toolbarInsertResourceCallback?: (string) => string;
 }
 
