@@ -25,7 +25,7 @@
               "tsConfig": "projects/angular-editor/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -66,10 +66,16 @@
             "tsConfig": "projects/angular-editor-app/tsconfig.app.json",
             "assets": [
               "projects/angular-editor-app/src/favicon.ico",
-              "projects/angular-editor-app/src/assets"
+              "projects/angular-editor-app/src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/angular-editor/assets/icons/",
+                "output": "assets/ae-icons/"
+              }
             ],
             "styles": [
-              "projects/angular-editor-app/src/styles.scss"
+              "projects/angular-editor-app/src/styles.scss",
+              "projects/angular-editor/themes/default.scss"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -111,18 +117,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-editor-app:build"
+            "buildTarget": "angular-editor-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-editor-app:build:production"
+              "buildTarget": "angular-editor-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-editor-app:build"
+            "buildTarget": "angular-editor-app:build"
           }
         },
         "test": {
@@ -166,9 +172,36 @@
       }
     }
   },
-  "defaultProject": "angular-editor-app",
   "cli": {
     "analytics": "fbddda2f-258b-4004-8062-d701809d0a1c",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

@@ -1,18 +1,18 @@
 <p align="center">
-  <img width="150px" src="https://raw.githubusercontent.com/kolkov/angular-editor/master/docs/angular-editor-logo.png?raw=true" alt="AngularEditor logo"/>
+  <img width="150px" src="https://raw.githubusercontent.com/kolkov/angular-editor/main/docs/angular-editor-logo.png?raw=true" alt="AngularEditor logo"/>
 </p>
 
 # AngularEditor
 [![npm version](https://badge.fury.io/js/%40kolkov%2Fangular-editor.svg)](https://badge.fury.io/js/%40kolkov%2Fangular-editor)
+[![npm](https://img.shields.io/npm/v/@kolkov/angular-editor.svg)](https://www.npmjs.com/package/@kolkov/angular-editor)
+[![CI](https://github.com/kolkov/angular-editor/actions/workflows/publish.yml/badge.svg)](https://github.com/kolkov/angular-editor/actions/workflows/publish.yml)
+[![npm downloads](https://img.shields.io/npm/dm/@kolkov/angular-editor.svg)](https://www.npmjs.com/package/@kolkov/angular-editor)
 [![demo](https://img.shields.io/badge/demo-StackBlitz-blueviolet.svg)](https://stackblitz.com/edit/angular-editor-wysiwyg)
-[![Build Status](https://travis-ci.com/kolkov/angular-editor.svg?branch=master)](https://travis-ci.com/kolkov/angular-editor)
-[![npm](https://img.shields.io/npm/dm/@kolkov/angular-editor.svg)](https://www.npmjs.com/package/@kolkov/angular-editor)
 [![](https://data.jsdelivr.com/v1/package/npm/@kolkov/angular-editor/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@kolkov/angular-editor)
-[![Coverage Status](https://coveralls.io/repos/github/kolkov/angular-editor/badge.svg?branch=master)](https://coveralls.io/github/kolkov/angular-editor?branch=master)
-[![codecov](https://codecov.io/gh/kolkov/angular-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/kolkov/angular-editor)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/AndreyKolkov)
 
-A simple native WYSIWYG/Rich Text editor for Angular 6-14+
+A simple native WYSIWYG/Rich Text editor for Angular 20+
 
 ![Nov-27-2019 17-26-29](https://user-images.githubusercontent.com/216412/69763434-259cd800-113b-11ea-918f-0565ebce0e48.gif)
 
@@ -30,14 +30,22 @@ Install via [npm][npm] package manager
 npm install @kolkov/angular-editor --save
 ```
 ### Versions
+3.0.0 and above - for Angular v20+ (CSS variables, modern Angular 20)
 
-2.0.0 and above - for Angular v13.0.0 and above
+2.0.0 and above - for Angular v13-19
 
-1.0.0 and above - for Angular v8.x.x and above
+1.0.0 and above - for Angular v8-12
 
 0.18.4 and above - for Angular v7.x.x
 
-0.15.x - for Angular v6.x.x 
+0.15.x - for Angular v6.x.x
+
+**Note:** Version 3.0.0 requires:
+- Angular 20.0.0 or higher (also compatible with Angular 21)
+- RxJS 7.8.0 or higher
+- TypeScript 5.4 or higher
+
+Attention! `alpha` and `beta` versions may contain breaking changes.
 
 ### Usage
 
@@ -64,7 +72,7 @@ or for usage with reactive forms
 <angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
 ```
 
-if you using more than one editor on same page set `id` property
+if you are using more than one editor on same page set `id` property
 
 ```html
 <angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig"></angular-editor>
@@ -126,17 +134,79 @@ editorConfig: AngularEditorConfig = {
 ```
 For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or for `formControlName`, you must import `ReactiveFormsModule` from `@angular/forms`
 
+To serve the icons file, ensure that your `angular.json` contains the following asset configuration:
+
+```
+{
+  "glob": "**/*",
+  "input": "node_modules/@kolkov/angular-editor/assets/icons",
+  "output": "assets/ae-icons/"
+}
+```
+
+### Styling
+
+Connect default theme file to your `angular.json` or `nx.json` 
+```
+"styles": [
+     "projects/angular-editor-app/src/styles.scss",
+     "node_modules/@kolkov/angular-editor/themes/default.scss"
+],
+```
+or `@include` or `@use` in your project `styles.scss` file, and then override default theme variables like this:
+```scss
+:root {
+  --ae-gap: 5px;
+  --ae-text-area-border: 1px solid #ddd;
+  --ae-text-area-border-radius: 0;
+  --ae-focus-outline-color: #afaeae auto 1px;
+  --ae-toolbar-padding: 1px;
+  --ae-toolbar-bg-color: #b3dca0;
+  --ae-toolbar-border-radius: 1px solid #ddd;
+  --ae-button-bg-color: #dadad7;
+  --ae-button-border: 3px solid #3fb74e;
+  --ae-button-radius: 5px;
+  --ae-button-hover-bg-color: #3fb74e;
+  --ae-button-active-bg-color: red;
+  --ae-button-active-hover-bg-color: blue;
+  --ae-button-disabled-bg-color: gray;
+  --ae-picker-label-color: rgb(78, 84, 155);
+  --ae-picker-icon-bg-color: rgb(34, 41, 122);
+  --ae-picker-option-bg-color: rgba(221, 221, 84, 0.76);
+  --ae-picker-option-active-bg-color: rgba(237, 237, 62, 0.9);
+  --ae-picker-option-focused-bg-color: rgb(255, 255, 0);  
+}
+```
+
 ### Custom buttons
 
 You can define your custom buttons with custom actions using executeCommandFn. It accepts commands from [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand).
 The first argument of this method is aCommandName and the second argument is aValueArgument. Example shows a button that adds Angular editor logo into the editor.
 ```html
-<angular-editor id="editor1" formControlName="htmlContent1" [config]="editorConfig">
+<angular-editor id="editor1" [(ngModel)]="htmlContent1" [config]="config1" (ngModelChange)="onChange($event)"
+                (blur)="onBlur($event)">
   <ng-template #customButtons let-executeCommandFn="executeCommandFn">
     <ae-toolbar-set>
-      <ae-button iconClass="fa fa-html5" title="Angular editor logo"
-                 (buttonClick)="executeCommandFn('insertHtml', angularEditorLogo)">
-      </ae-button>
+      <button aeButton title="Angular editor logo" (click)="executeCommandFn('insertHtml', angularEditorLogo)">
+        <svg viewBox="-8 0 272 272" xmlns="http://www.w3.org/2000/svg"
+             preserveAspectRatio="xMidYMid" fill="#000000">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <path
+                d="M0.0996108949,45.522179 L125.908171,0.697276265 L255.103502,44.7252918 L234.185214,211.175097 L125.908171,271.140856 L19.3245136,211.971984 L0.0996108949,45.522179 Z"
+                fill="#E23237"></path>
+              <path
+                d="M255.103502,44.7252918 L125.908171,0.697276265 L125.908171,271.140856 L234.185214,211.274708 L255.103502,44.7252918 L255.103502,44.7252918 Z"
+                fill="#B52E31"></path>
+              <path
+                d="M126.107393,32.27393 L126.107393,32.27393 L47.7136187,206.692607 L76.9992218,206.194553 L92.7377432,166.848249 L126.207004,166.848249 L126.306615,166.848249 L163.063035,166.848249 L180.29572,206.692607 L208.286381,207.190661 L126.107393,32.27393 L126.107393,32.27393 Z M126.306615,88.155642 L152.803113,143.5393 L127.402335,143.5393 L126.107393,143.5393 L102.997665,143.5393 L126.306615,88.155642 L126.306615,88.155642 Z"
+                fill="#FFFFFF"></path>
+            </g>
+          </g>
+        </svg>
+      </button>
     </ae-toolbar-set>
   </ng-template>
 </angular-editor>
@@ -254,11 +324,13 @@ angular-editor/
 
 The documentation for the AngularEditor is hosted at our website [AngularEditor](https://angular-editor.kolkov.ru/)
 
+Icons from Ligature Symbols Icons Collection [icons]
+
 ## Contributing
 
-Please read through our [contributing guidelines](https://github.com/kolkov/angular-editor/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
+Please read through our [contributing guidelines](https://github.com/kolkov/angular-editor/blob/main/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
 
-Editor preferences are available in the [editor config](https://github.com/kolkov/angular-editor/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
+Editor preferences are available in the [editor config](https://github.com/kolkov/angular-editor/blob/main/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
 
 ## Versioning
 
@@ -279,3 +351,4 @@ If you like my work and I save your time you can buy me a :beer: or :pizza: [![D
 [npm]: https://www.npmjs.com/package/@kolkov/angular-editor
 [demo]: https://angular-editor-wysiwyg.stackblitz.io/
 [example]: https://stackblitz.com/edit/angular-editor-wysiwyg
+[icons]: https://www.svgrepo.com/collection/ligature-symbols-icons/

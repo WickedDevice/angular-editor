@@ -2,17 +2,22 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angula
 
 
 @Component({
-  selector: 'ae-button',
-  templateUrl: './ae-button.component.html',
-  styleUrls: ['./ae-button.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ae-button, button[aeButton]',
+    templateUrl: './ae-button.component.html',
+    styleUrls: ['./ae-button.component.scss'],
+    //encapsulation: ViewEncapsulation.None,
+    host: {
+        'class': 'angular-editor-button',
+        '[tabIndex]': '-1',
+        '[type]': '"button"',
+    },
+    standalone: false
 })
 export class AeButtonComponent {
 
-  @Input() iconClass = '';
-  @Input() title = '';
-  @Output() buttonClick = new EventEmitter();
+  @Input() iconName = '';
 
-  constructor() { }
+  constructor() {
+  }
 
 }

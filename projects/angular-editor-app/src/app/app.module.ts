@@ -16,7 +16,7 @@ import {AngularEditorModule} from '../../../angular-editor/src/lib/angular-edito
     AngularEditorModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

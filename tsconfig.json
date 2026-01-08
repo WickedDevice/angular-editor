@@ -6,7 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2017",
@@ -22,6 +22,12 @@
         "dist/angular-editor"
       ],
       "angular-editor/*": [
+        "dist/angular-editor/*"
+      ],
+      "@kolkov/angular-editor": [
+        "dist/angular-editor"
+      ],
+      "@kolkov/angular-editor/*": [
         "dist/angular-editor/*"
       ]
     }

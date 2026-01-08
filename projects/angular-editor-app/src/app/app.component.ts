@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularEditorConfig} from 'angular-editor';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 const ANGULAR_EDITOR_LOGO_URL = 'https://raw.githubusercontent.com/kolkov/angular-editor/master/docs/angular-editor-logo.png?raw=true'
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   title = 'app';
@@ -48,13 +49,8 @@ export class AppComponent implements OnInit {
       },
     ],
     toolbarHiddenButtons: [
-      // ['bold', 'italic'],
-      ['fontSize']
-    ],
-    toolbarInsertResourceCallback: (async (s) => {
-      console.log(`Callback called with arg "${s}"`);
-      return new Promise(r => r('<b>Hello World</b>'));
-    }).bind(this)
+      ['bold', 'italic'],
+    ]
   };
 
   config2: AngularEditorConfig = {

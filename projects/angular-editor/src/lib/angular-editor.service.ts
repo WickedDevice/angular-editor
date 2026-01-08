@@ -277,7 +277,12 @@ export class AngularEditorService {
   }
 
   private insertYouTubeVideoTag(videoUrl: string): void {
-    const id = videoUrl.split('v=')[1];
+    let id: string;
+    if (videoUrl.includes('youtu.be/')) {
+      id = videoUrl.split('youtu.be/')[1].split('?')[0];
+    } else {
+      id = videoUrl.split('v=')[1].split('&')[0];
+    }
     const thumbnail = `
     <iframe width="560" height="315"
     src="https://www.youtube.com/embed/${id}"
